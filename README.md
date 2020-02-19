@@ -11,9 +11,10 @@ The steps are pretty straight forward:
 
 - Activate Docker Desktop (Admin): You will need to activate docker as admin in your system. I was using Windows 10.
 - Activate RabbitMQ Docker image. If you familiar with Docker you can create your own instance from here [Bitnami Github Repo for RabbitMQ](https://github.com/bitnami/bitnami-docker-rabbitmq). The credentials are:
+    - Commmad in terminal where the `docker-compose.yml` file is, type `docker-compose up`
     - Username: **user**
     - Password: **bitnami**
-    - Commmad in terminal where the `docker-compose.yml` file is, type `docker-compose up`
+    - Local server: **localhost:15672**
 - Run descriptive analysis:
     - From the root folder `occupancy_data`: type in `python descriptive_analysis.py`
     - The plots should appear in the `Plots` folder
