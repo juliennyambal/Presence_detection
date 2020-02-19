@@ -16,7 +16,7 @@ The steps are pretty straight forward:
     - Password: **bitnami**
     - Local server: **localhost:15672**
 - Run descriptive analysis:
-    - From the root folder `occupancy_data`: type in `python descriptive_analysis.py`
+    - From the root folder: type in `python descriptive_analysis.py`
     - The plots should appear in the `Plots` folder
 
 ## Training the models
