@@ -11,6 +11,9 @@ import seaborn as sns
 import numpy as np
 import pickle
 import os
+import time
+
+from prettytable import PrettyTable
 sns.set(style="ticks")
 
 pd.set_option('display.max_rows', 500)
@@ -105,19 +108,24 @@ if 'Models' not in os.listdir():
 else:
     print("Models folder already exists")
 
+estimators_names = [""]
+balanced_accuracy = ["Balanced Accuracy"]
+f1_results = ["F1"]
+accuracy_results = ["Accuracy"]
+conf_matrices_train = ["Confusion Matrix Train"]
+conf_matrices_test = ["Confusion Matrix Test"]
+training_time_in_sec = ["Training time (s)"]
+
 for i in range(len(classifiers)):
     with mlflow.start_run():
         clf = classifiers[i]
+        start_training_time = time.time()
         clf.fit(X_train, y_train)
+        training_time = time.time() - start_training_time
         predicted_qualities = np.clip(np.round(clf.predict(X_test)), 0, 1)
-        print(confusion_matrix(np.array(y_train), 
-                               np.clip(np.round(clf.predict(X_train)), 0, 1)))
-        print(confusion_matrix(np.array(y_test), predicted_qualities))
+        #print(confusion_matrix(np.array(y_train), np.clip(np.round(clf.predict(X_train)), 0, 1)))
+        #print(confusion_matrix(np.array(y_test), predicted_qualities))
         (bacc, f1, acc, prec, recall) = eval_metrics(np.array(y_test), predicted_qualities)
-        print("  bacc: %s" % bacc)
-        print("  f1_score: %s" % f1)
-        print("  ACC: %s" % acc)
-        print("Model Name: %s" % names[i])
         mlflow.log_param("Model_Name", names[i])
         mlflow.log_metric("bacc", bacc)
         mlflow.log_metric("f1_score", f1)
@@ -125,10 +133,28 @@ for i in range(len(classifiers)):
         mlflow.log_metric("prec", f1)
         mlflow.log_metric("recall", acc)
         mlflow.sklearn.log_model(clf, names[i])
-        print("End of iteration %d" % i)
+        print("End training of %s" % names[i])
         filename = 'Models/%s.pkl' % names[i]
         pickle.dump(clf, open(filename, 'wb'))
+        #For drawing the resulting table having the metrics
+        estimators_names.append(names[i])
+        balanced_accuracy.append(bacc)
+        f1_results.append(f1)
+        accuracy_results.append(acc)
+        training_time_in_sec.append(training_time)
+        conf_matrices_train.append(confusion_matrix(np.array(y_train), 
+                               np.clip(np.round(clf.predict(X_train)), 0, 1)))
+        conf_matrices_test.append(confusion_matrix(np.array(y_test), predicted_qualities))
         print("------------------------------")
+
+t = PrettyTable(estimators_names)
+t.add_row(balanced_accuracy)
+t.add_row(f1_results)
+t.add_row(accuracy_results)
+t.add_row(training_time_in_sec)
+t.add_row(conf_matrices_train)
+t.add_row(conf_matrices_test)
+print(t)
 
 
 # clf = classifiers[0]
