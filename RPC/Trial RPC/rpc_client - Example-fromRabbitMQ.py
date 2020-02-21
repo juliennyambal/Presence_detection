@@ -12,9 +12,7 @@ class FibonacciRpcClient(object):
             pika.ConnectionParameters(host='localhost',
                                        port=5672,
                                        credentials=credentials))
-
         self.channel = self.connection.channel()
-
         result = self.channel.queue_declare(queue='', exclusive=True)
         self.callback_queue = result.method.queue
 

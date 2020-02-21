@@ -19,6 +19,7 @@ EXCHANGE = 'RESPONSE'
 ROUTING_KEY = 'response_queue'
 
 class RpcClient(object):
+    
     def __init__(self):
         credentials = pika.PlainCredentials(USERNAME, PASSWORD)
         self.connection = pika.BlockingConnection(
@@ -66,6 +67,3 @@ for i in range(10000):
     print("Sent: ", data)
     print(" [.] Got %r" % client.call(data).decode('utf-8'))
     sleep(1)
-
-cursor.close()
-cnx.close()
