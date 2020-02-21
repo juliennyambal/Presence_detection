@@ -8,32 +8,36 @@ import mysql.connector
 from mysql.connector import errorcode
 import json
 
+#To be modified according to the current settings
+import config
 
-QUEUE_NAME = 'predictions'
-RMQ_SERVER = 'localhost'
-RMQ_PORT = 5672
-USERNAME = 'user'
-PASSWORD = 'bitnami'
+QUEUE_NAME = config.RABBIT_MQ_QUEUE_NAME
+RMQ_SERVER = config.RABBIT_MQ_SERVER
+RMQ_PORT = config.RABBIT_MQ_PORT
+USERNAME = config.RABBIT_MQ_USERNAME
+PASSWORD = config.RABBIT_MQ_PASSWORD
 VIRTUAL_HOST= '/'
-url = 'http://localhost:5000/results'
+url = config.PREDICTION_URL_PROD
 
-DB_NAME = 'incubator_ds'
+
+DB_NAME = config.DB_NAME
+PROD_TABLE = config.DB_PROD_TABLE
 TABLES = {}
 TABLES['prediction'] = (
-    "CREATE TABLE `predictions_lr` ("
-    "  `prediction_id` int(10) NOT NULL AUTO_INCREMENT,"
-    "  `Temparature` float NOT NULL,"
-    "  `Humidity` float NOT NULL,"
-    "  `Light` float,"
-    "  `CO2` float NOT NULL,"
-    "  `prediction` int,"
-    "  `emptyness_probability` float," 
-    "  `model` varchar(255),"        
-    "  `date` datetime,"
-    "  PRIMARY KEY (`prediction_id`)"
-    ") ENGINE=InnoDB")
+"""CREATE TABLE %s (
+  `prediction_id` int(10) NOT NULL AUTO_INCREMENT,
+  `Temparature` float NOT NULL,
+  `Humidity` float NOT NULL,
+  `Light` float,
+  `CO2` float NOT NULL,
+  `prediction` int,
+  `emptyness_probability` float, 
+  `model` varchar(255),        
+  `date` datetime,
+  PRIMARY KEY (`prediction_id`)
+) ENGINE=InnoDB""" % PROD_TABLE)
 
-cnx = mysql.connector.connect(user='root', password='@Entelect')
+cnx = mysql.connector.connect(user=config.DB_USER_NAME, password=config.DB_PASSWORD)
 cursor = cnx.cursor()
 
 def create_database(cursor):
@@ -85,9 +89,9 @@ def predict(message):
     data = message
     r = requests.post(url,json=data).json()
     data_prediction = (data['temparature'], data['Humidity'], data['Light'], data['CO2'], int(np.clip(np.round(r['status']),0,1)),r['emptyness_proba'],r['model'],time.strftime('%Y-%m-%d %H:%M:%S'))
-    add_prediction = ("INSERT INTO predictions_lr "
-    "(Temparature, Humidity, Light, CO2, prediction,emptyness_probability,model,date) "
-    "VALUES (%s, %s, %s, %s, %s, %s, %s, %s)")
+    insert_section = "INSERT INTO %s " % PROD_TABLE
+    add_prediction = insert_section + """(Temparature, Humidity, Light, CO2, prediction,emptyness_probability,model,date) 
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"""
     cursor.execute(add_prediction, data_prediction)
     cnx.commit()
     return data_prediction

@@ -1,21 +1,22 @@
 #!/usr/bin/env python
 import pika
 import requests
-
 import time    
 import numpy as np
 import mysql.connector
 from mysql.connector import errorcode
 import json
 
+#To be modified according to the current settings
+import config
 
-QUEUE_NAME = 'predictions'
-RMQ_SERVER = 'localhost'
-RMQ_PORT = 5672
-USERNAME = 'user'
-PASSWORD = 'bitnami'
+QUEUE_NAME = config.RABBIT_MQ_QUEUE_NAME
+RMQ_SERVER = config.RABBIT_MQ_SERVER
+RMQ_PORT = config.RABBIT_MQ_PORT
+USERNAME = config.RABBIT_MQ_USERNAME
+PASSWORD = config.RABBIT_MQ_PASSWORD
 VIRTUAL_HOST= '/'
-url = 'http://localhost:5001/results'
+url = config.PREDICTION_URL_DEV
 
 
 """
@@ -30,7 +31,8 @@ RandomForestClassifier
 """
 
 
-DB_NAME = 'incubator_ds'
+DB_NAME = config.DB_NAME
+DEV_TABLE = config.DB_DEV_TABLE
 TABLES = {}
 TABLES['prediction'] = (
     "CREATE TABLE `predictions_ab_tests` ("
@@ -59,7 +61,7 @@ TABLES['prediction'] = (
     "  PRIMARY KEY (`prediction_id`)"
     ") ENGINE=InnoDB")
 
-cnx = mysql.connector.connect(user='root', password='@Entelect')
+cnx = mysql.connector.connect(user=config.DB_USER_NAME, password=config.DB_PASSWORD)
 cursor = cnx.cursor()
 
 def create_database(cursor):
@@ -128,7 +130,8 @@ def predict(message):
                        r['RandomForestClassifier_emptuness_proba'],
                        time.strftime('%Y-%m-%d %H:%M:%S'))
     print(data_prediction)
-    add_prediction = ("INSERT INTO predictions_ab_tests "
+    insert_section = "INSERT INTO %s " % DEV_TABLE
+    add_prediction = (insert_section+
     "(Temparature,Humidity,Light,CO2 ,AdaBoost_prediction,DecisionTree_prediction,SVC_prediction,LR_prediction,GNB_prediction,KNN_prediction,ANN_prediction,RF_prediction,AdaBoost_emptyness_probability,DecisionTree_emptyness_probability,SVC_emptyness_probability,LR_emptyness_probability,GNB_emptyness_probability,KNN_emptyness_probability,ANN_emptyness_probability,RF_emptyness_probability,date) "
     "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)")
     cursor.execute(add_prediction, data_prediction)
