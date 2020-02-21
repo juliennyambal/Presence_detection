@@ -25,12 +25,9 @@ The aim of this project is to show the ability to use a trained model and to swi
 
 From the `Dev` folder, there is the file `occupancy_training.py` that will produce after training some models in a `.pkl` extention to be later user by the server. You would want to run the following command `python Dev/occupancy_training.py`. You should see a folder called `Models` containing all the different trained models for this task. Feel free to add other classifiers.
 
-| Tables        | Are           | Cool  |
-| ------------- |:-------------:| -----:|
-| col 3 is      | right-aligned | $1600 |
-| col 2 is      | centered      |   $12 |
-| zebra stripes | are neat      |    $1 |
-
-
-
-
+|                        |  Nearest Neighbors  |      Linear SVM     |    Decision Tree     |   Random Forest    |     Neural Net     |       AdaBoost      |      Naive Bayes      | Logistic Regression |
+|------------------------|---------------------|---------------------|----------------------|--------------------|--------------------|---------------------|-----------------------|---------------------|
+|   Balanced Accuracy    |  0.9772593030124039 |  0.9772593030124039 |  0.9772593030124039  | 0.9772593030124039 | 0.9769639692852924 |  0.9772593030124039 |   0.9769639692852924  |  0.9772593030124039 |
+|           F1           |  0.9713211850274014 |  0.9713211850274014 |  0.9713211850274014  | 0.9713211850274014 | 0.9709511677910402 |  0.9713211850274014 |   0.9709511677910402  |  0.9713211850274014 |
+|        Accuracy        |  0.9711069418386492 |  0.9711069418386492 |  0.9711069418386492  | 0.9711069418386492 | 0.9707317073170731 |  0.9711069418386492 |   0.9707317073170731  |  0.9711069418386492 |
+|   Training time (s)    | 0.10528111457824707 | 0.08269143104553223 | 0.008838653564453125 |  1.11342191696167  | 4.297305107116699  | 0.01706552505493164 | 0.0063571929931640625 | 0.18995070457458496 |
