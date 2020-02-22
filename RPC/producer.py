@@ -3,20 +3,22 @@ import pika
 import uuid
 from time import sleep
 
+import config
+
 import numpy as np
 import random
 import mysql.connector
 from mysql.connector import errorcode
 import json
 
-QUEUE_NAME = 'predictions'
-RMQ_SERVER = 'localhost'
-RMQ_PORT = 5672
-USERNAME = 'user'
-PASSWORD = 'bitnami'
-VIRTUAL_HOST= '/'
-EXCHANGE = 'RESPONSE'
-ROUTING_KEY = 'response_queue'
+QUEUE_NAME = config.RABBIT_MQ_QUEUE_NAME
+RMQ_SERVER = config.RABBIT_MQ_SERVER
+RMQ_PORT = config.RABBIT_MQ_PORT
+USERNAME = config.RABBIT_MQ_USERNAME
+PASSWORD = config.RABBIT_MQ_PASSWORD
+VIRTUAL_HOST= config.RABBIT_MQ_VIRTUAL_HOST
+EXCHANGE = config.RABBIT_MQ_EXCHANGE
+ROUTING_KEY = config.RABBIT_MQ_ROUTING_KEY
 
 class RpcClient(object):
     
@@ -43,7 +45,7 @@ class RpcClient(object):
         self.response = None
         self.corr_id = str(uuid.uuid4())
         self.channel.basic_publish(
-            exchange='',
+            exchange=EXCHANGE,
             routing_key=QUEUE_NAME,
             properties=pika.BasicProperties(
                 reply_to=self.callback_queue,

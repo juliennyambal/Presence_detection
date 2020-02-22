@@ -12,9 +12,6 @@ import numpy as np
 import os
 sns.set(style="ticks")
 
-
-from tpot import TPOTClassifier
-
 import matplotlib.pyplot as plt
 
 data_train = pd.read_csv("Dataset/datatraining.txt")
@@ -71,7 +68,7 @@ plt.tight_layout(pad=1, w_pad=1, h_pad=1.0)
 plt.title("All histograms Test 2")
 plt.savefig("Plots/All_histograms_test_2.png", dpi=dpi)
 
-ax = sns.pairplot(data_train[columns], hue='Occupancy');
+ax = sns.pairplot(data_train[columns], hue='Occupancy')
 # replace labels
 new_labels = ["Not Occupied", "Occupied"]
 for t, l in zip(ax._legend.texts, new_labels): t.set_text(l)
@@ -80,16 +77,12 @@ ax.fig.get_children()[-1].set_bbox_to_anchor((1.05, 0.5, 0, 0))
 plt.savefig("Plots/Pair_plot_Train.png", dpi=dpi)
 
 sns.pairplot(data_test_1[columns], hue='Occupancy')
-# replace labels
-new_labels = ["Not Occupied", "Occupied"]
 for t, l in zip(ax._legend.texts, new_labels): t.set_text(l)
 #Move the legend a bit to the right
 ax.fig.get_children()[-1].set_bbox_to_anchor((1.05, 0.5, 0, 0))
 plt.savefig("Plots/Pair_plot_Test1.png", dpi=dpi)
 
 sns.pairplot(data_test_2[columns], hue='Occupancy')
-# replace labels
-new_labels = ["Not Occupied", "Occupied"]
 for t, l in zip(ax._legend.texts, new_labels): t.set_text(l)
 #Move the legend a bit to the right
 ax.fig.get_children()[-1].set_bbox_to_anchor((1.05, 0.5, 0, 0))

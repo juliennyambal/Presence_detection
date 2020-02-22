@@ -2,6 +2,7 @@
 
 This repo follows the presentation made during the meetup [Johannesburg Machine Learning Meetup](https://www.meetup.com/Johannesburg-Artificial-Intelligence-Meetup/events/268234198) that was held on the 20th February 2020.
 
+> :warning: **In this repo, I am using Windows 10**: Linux and MacOS use, check the path slashes before running the code.
 
 # Initial Phase
 
@@ -20,6 +21,8 @@ The steps are pretty straight forward:
   - The plots should appear in the `Plots` folder
 
 ## Training the models
+
+Origin of the dataset: [Occupancy Detection Data Set](https://archive.ics.uci.edu/ml/machine-learning-databases/00357/).
 
 > **Commands:** 
 

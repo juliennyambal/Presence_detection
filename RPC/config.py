@@ -4,7 +4,9 @@ RABBIT_MQ_SERVER = 'localhost'
 RABBIT_MQ_PORT = 5672
 RABBIT_MQ_USERNAME = 'user'
 RABBIT_MQ_PASSWORD = 'bitnami'
-VIRTUAL_HOST= '/'
+RABBIT_MQ_VIRTUAL_HOST= '/'
+RABBIT_MQ_ROUTING_KEY = 'response_queue'
+RABBIT_MQ_EXCHANGE = ''
 
 #Prediction url from app.py and app_kinda_ab_testing.py
 PREDICTION_URL_DEV = 'http://localhost:5001/results'

@@ -5,6 +5,7 @@ import pickle, os
 app = Flask(__name__, template_folder='')
 models_raw = os.listdir('../Models')
 
+#Helper function to map a single feature to all the models at once
 def to_list_model(path_model):
     model = pickle.load(open(os.path.join('../Models/',path_model),'rb'))
     return model

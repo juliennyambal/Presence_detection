@@ -112,23 +112,23 @@ def predict(message):
     data = message
     r = requests.post(url,json=data).json()
     data_prediction = (data['temparature'], data['Humidity'], data['Light'], data['CO2'], 
-                       r['AdaBoostClassifier_prediction'],
-                       r['DecisionTreeClassifier_prediction'],
-                       r['SVC_prediction'],
-                       r['LogisticRegression_prediction'],
-                       r['GaussianNB_prediction'],
-                       r['KNeighborsClassifier_prediction'],
-                       r['MLPClassifier_prediction'],
-                       r['RandomForestClassifier_prediction'],
-                       r['AdaBoostClassifier_emptuness_proba'],
-                       r['DecisionTreeClassifier_emptuness_proba'],
-                       r['SVC_emptuness_proba'],
-                       r['LogisticRegression_emptuness_proba'],
-                       r['GaussianNB_emptuness_proba'],
-                       r['KNeighborsClassifier_emptuness_proba'],
-                       r['MLPClassifier_emptuness_proba'],
-                       r['RandomForestClassifier_emptuness_proba'],
-                       time.strftime('%Y-%m-%d %H:%M:%S'))
+                        r['AdaBoostClassifier_prediction'],
+                        r['DecisionTreeClassifier_prediction'],
+                        r['SVC_prediction'],
+                        r['LogisticRegression_prediction'],
+                        r['GaussianNB_prediction'],
+                        r['KNeighborsClassifier_prediction'],
+                        r['MLPClassifier_prediction'],
+                        r['RandomForestClassifier_prediction'],
+                        r['AdaBoostClassifier_emptuness_proba'],
+                        r['DecisionTreeClassifier_emptuness_proba'],
+                        r['SVC_emptuness_proba'],
+                        r['LogisticRegression_emptuness_proba'],
+                        r['GaussianNB_emptuness_proba'],
+                        r['KNeighborsClassifier_emptuness_proba'],
+                        r['MLPClassifier_emptuness_proba'],
+                        r['RandomForestClassifier_emptuness_proba'],
+                        time.strftime('%Y-%m-%d %H:%M:%S'))
     print(data_prediction)
     insert_section = "INSERT INTO %s " % DEV_TABLE
     add_prediction = (insert_section+
