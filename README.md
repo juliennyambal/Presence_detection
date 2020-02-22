@@ -11,11 +11,10 @@ This repo follows the presentation made during the meetup [Johannesburg Machine 
 The steps are pretty straight forward:
 
 - [Install Docker](https://docs.docker.com/docker-for-windows/install/) and activate Docker Desktop (Admin): You will need to activate docker as admin in your system. I was using Windows 10.
-- Activate RabbitMQ Docker image. If you familiar with Docker you can create your own instance from here [Bitnami Github Repo for RabbitMQ](https://github.com/bitnami/bitnami-docker-rabbitmq). The credentials are:
-  - Commmad in terminal where the `docker-compose.yml` file is, type `docker-compose up`
-    - Username: **user**
-    - Password: **bitnami**
-    - Local server: **localhost:15672**
+- Activate RabbitMQ Docker image, by running `docker-compose up` from the terminal. If you familiar with Docker you can create your own instance from here [Bitnami Github Repo for RabbitMQ](https://github.com/bitnami/bitnami-docker-rabbitmq). The credentials are:
+  - Username: **user**
+  - Password: **bitnami**
+  - Local server: **localhost:15672**
 - Run descriptive analysis:
   - From the root folder: type in `python Dev/descriptive_analysis.py`
   - The plots should appear in the `Plots` folder
@@ -40,7 +39,6 @@ From the `Dev` folder, there is the file `occupancy_training.py` that will produ
 |   Training time (s)    | 0.10528111457824707 | 0.08269143104553223 | 0.008838653564453125 |  1.11342191696167  | 4.297305107116699  | 0.01706552505493164 | 0.0063571929931640625 | 0.18995070457458496 |
 
 As a plus, there is a  `Dev/TPOT.py` which is [A Python Automated Machine Learning tool that optimizes machine learning pipelines using genetic programming.](https://github.com/EpistasisLab/tpot) for some sort of auto-ml. Take a look and try to get something out of it. 
-
 
 ## Serving the models
 
