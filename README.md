@@ -6,6 +6,8 @@ This repo follows the presentation made during the meetup [Johannesburg Machine 
 
 # Initial Phase
 
+Install everything python required: `pip install requirements.txt`
+
 ## Getting the data and infrastruture ready
 
 The steps are pretty straight forward:
